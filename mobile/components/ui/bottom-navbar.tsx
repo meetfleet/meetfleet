@@ -13,13 +13,13 @@ interface BottomNavBarProps {
   onTabChange: (tabId: string) => void;
 }
 
+const navItems: NavItem[] = [
+  { id: 'plans', label: 'Plans', icon: 'message-square' },
+  { id: 'navigation', label: 'Navigation', icon: 'navigation' },
+  { id: 'messages', label: 'Messages', icon: 'message-circle' },
+];
+
 const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onTabChange }) => {
-  const navItems: NavItem[] = [
-    { id: 'plans', label: 'Plans', icon: 'message-square' },
-    { id: 'navigation', label: 'Navigation', icon: 'navigation' },
-    { id: 'messages', label: 'Messages', icon: 'message-circle' },
-  ];
-  
   const getIcon = (iconName: string, isActive: boolean) => {
     const iconColor = isActive ? '#0033FF' : '#b1b4b7';
     const iconSize = 24;
