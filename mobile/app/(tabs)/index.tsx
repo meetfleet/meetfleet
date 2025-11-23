@@ -2,6 +2,7 @@ import BottomNavBar from '@/components/ui/bottom-navbar';
 import FiltersBackdrop from '@/components/ui/filters-backdrop';
 import MapMarker from '@/components/ui/map-marker';
 import { MAPBOX_ACCESS_TOKEN } from '@/constants/mapbox-config';
+import { markers } from '@/constants/markers-data';
 import { Colors } from '@/constants/theme';
 import Mapbox from '@rnmapbox/maps';
 import { Map, Minus, Plus, Search, Settings2, X } from 'lucide-react-native';
@@ -17,16 +18,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
-interface MarkerData {
-  id: string;
-  emoji: string;
-  userEmoji?: string;
-  latitude: number;
-  longitude: number;
-  hasProgress?: boolean;
-  progressColor?: string;
-}
-
 const NavigationPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('navigation');
   const [zoomLevel, setZoomLevel] = useState(13);
@@ -36,36 +27,6 @@ const NavigationPage: React.FC = () => {
   const cameraRef = useRef<Mapbox.Camera>(null);
   
   const centerCoordinate = [-74.0060, 40.7128];
-  
-  const markers: MarkerData[] = [
-    {
-      id: '1',
-      emoji: '🍺',
-      userEmoji: '👦',
-      longitude: -74.0060,
-      latitude: 40.7128,
-      hasProgress: true,
-      progressColor: '#FF6B00',
-    },
-    {
-      id: '2',
-      emoji: '☕',
-      userEmoji: '👩',
-      longitude: -74.0100,
-      latitude: 40.7200,
-      hasProgress: true,
-      progressColor: Colors.light.success,
-    },
-    {
-      id: '3',
-      emoji: '🚗',
-      userEmoji: '👨',
-      longitude: -74.0000,
-      latitude: 40.7050,
-      hasProgress: true,
-      progressColor: Colors.light.success,
-    },
-  ];
 
   const handleZoomIn = () => {
     const newZoom = Math.min(zoomLevel + 1, 20);
@@ -122,7 +83,6 @@ const NavigationPage: React.FC = () => {
                 userEmoji={marker.userEmoji}
                 hasProgress={marker.hasProgress}
                 progressColor={marker.progressColor}
-                onPress={() => console.log(`Marker ${marker.id} pressed`)}
               />
             </Mapbox.MarkerView>
           ))}
@@ -165,7 +125,7 @@ const NavigationPage: React.FC = () => {
                   onPress={() => setIsSearchOpen(true)}
                   activeOpacity={0.7}
                 >
-                  <View style={styles.iconCircle} pointerEvents="none">
+                  <View style={styles.iconCircle}>
                     <Search size={20} color={Colors.light.text} />
                   </View>
                 </TouchableOpacity>
@@ -177,7 +137,7 @@ const NavigationPage: React.FC = () => {
                   <View style={[
                     styles.iconCircle,
                     isFiltersOpen && styles.iconCircleActive
-                  ]} pointerEvents="none">
+                  ]}>
                     <Settings2 
                       size={20} 
                       color={isFiltersOpen ? Colors.light.primary : Colors.light.text} 
@@ -273,9 +233,6 @@ const styles = StyleSheet.create({
   },
   iconCircleActive: {
     backgroundColor: Colors.light.card,
-  },
-  iconText: {
-    fontSize: 20,
   },
   profileButton: {
     width: 48,

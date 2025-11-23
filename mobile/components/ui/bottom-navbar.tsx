@@ -1,27 +1,18 @@
+import { navItems } from '@/constants/nav-items';
+import { Colors } from '@/constants/theme';
+import { Image } from 'expo-image';
+import { MessageCircle, MessageSquare } from 'lucide-react-native';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { MessageCircle, MessageSquare, Navigation } from 'lucide-react-native';
-
-interface NavItem {
-  id: string;
-  label: string;
-  icon: 'message-circle' | 'message-square' | 'navigation';
-}
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface BottomNavBarProps {
   activeTab: string;
   onTabChange: (tabId: string) => void;
 }
 
-const navItems: NavItem[] = [
-  { id: 'plans', label: 'Plans', icon: 'message-square' },
-  { id: 'navigation', label: 'Navigation', icon: 'navigation' },
-  { id: 'messages', label: 'Messages', icon: 'message-circle' },
-];
-
 const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onTabChange }) => {
   const getIcon = (iconName: string, isActive: boolean) => {
-    const iconColor = isActive ? '#0033FF' : '#b1b4b7';
+    const iconColor = isActive ? Colors.light.primary : Colors.light.navbarInactive;
     const iconSize = 24;
     
     switch (iconName) {
@@ -30,7 +21,17 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onTabChange }) =
       case 'message-square':
         return <MessageSquare size={iconSize} color={iconColor} />;
       case 'navigation':
-        return <Navigation size={iconSize} color={iconColor} />;
+        return (
+          <Image
+            source={
+              isActive
+                ? require('../../assets/images/blue_logo.svg')
+                : require('../../assets/images/logo.svg')
+            }
+            style={{ width: 24, height: 24 }}
+            contentFit="contain"
+          />
+        );
       default:
         return null;
     }
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     left: 30,
     right: 30,
     flexDirection: 'row',
-    backgroundColor: '#F4F7FB',
+    backgroundColor: Colors.light.navbarBackground,
     borderRadius: 50,
     paddingVertical: 3,
     paddingHorizontal: 3,
