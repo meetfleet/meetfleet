@@ -153,9 +153,9 @@ const RangeSlider = ({
 
 const FiltersBackdrop: React.FC<FiltersBackdropProps> = ({ visible, onClose }) => {
   const [ageRange, setAgeRange] = useState({ min: 20, max: 29 });
-  const [selectedGender, setSelectedGender] = useState<'female' | 'male' | 'all'>('male');
+  const [selectedGender, setSelectedGender] = useState<'female' | 'male' | 'all'>('all');
   const [selectedSituation, setSelectedSituation] = useState<'single' | 'taken' | 'all'>('all');
-  const [selectedMoneywise, setSelectedMoneywise] = useState<string[]>(['50%', 'all']);
+  const [selectedMoneywise, setSelectedMoneywise] = useState<string[]>([]);
   const [sameInterests, setSameInterests] = useState(false);
 
   const handleReset = () => {
