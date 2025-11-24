@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar } from 'react-native';
+import { BackButton } from '../../components/BackButton';
 
 const backArrowIcon = require('@/assets/back_arrow.png');
 const fingersCrossedImage = require('@/assets/fingers_crossed.png');
@@ -10,12 +11,7 @@ const RequestScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton}>
-            <Image source={backArrowIcon} style={styles.backIcon} />
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-        </View>
+       <BackButton />
 
 
         <View style={styles.content}>
@@ -102,7 +98,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderColor: '#E5E5E5',
-    borderWidth: 0.7,
+    borderWidth: 0.9,
   },
   avatar: {
     width: 30,
