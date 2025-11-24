@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   mainImage: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginBottom: 40,
   },
