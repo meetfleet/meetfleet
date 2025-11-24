@@ -57,9 +57,10 @@ const MapMarker: React.FC<MapMarkerProps> = ({
       style={styles.container}
     >
       <View style={[
-        styles.marker, 
-        isActive && styles.activeMarker,
-        isMaxZoom && styles.maxZoomMarker
+        styles.marker,
+        {
+          transform: [{ scale: isActive && isMaxZoom ? 1.25 : isMaxZoom ? 1.15 : isActive ? 1.1 : 1 }]
+        }
       ]}>
         <View style={styles.mainEmojiWrapper}>
           {hasProgress && (
