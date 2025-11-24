@@ -13,7 +13,7 @@ export const Colors = {
     background: '#fff',
     tint: tintColorLight,
     icon: '#687076',
-    tabIconDefault: '#b1b4b7',
+    tabIconDefault: 'rgba(0, 0, 0, 0.3)',
     tabIconSelected: tintColorLight,
     primary: '#0033FF',
     secondary: '#FF6B00',
@@ -24,7 +24,7 @@ export const Colors = {
     border: '#E5E5E5',
     shadow: 'rgba(0, 0, 0, 0.1)',
     navbarBackground: '#F4F7FB',
-    navbarInactive: '#b1b4b7',
+    navbarInactive: 'rgba(0, 0, 0, 0.3)',
   },
   dark: {
     text: '#ECEDEE',

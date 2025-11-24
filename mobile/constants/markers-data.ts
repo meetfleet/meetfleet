@@ -1,4 +1,4 @@
-import { MarkerData } from "@/app/interfaces/marker-data";
+import { MarkerData } from "@/interfaces/marker-data";
 import { Colors } from "./theme";
 
 export const markers: MarkerData[] = [

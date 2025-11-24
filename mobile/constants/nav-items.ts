@@ -1,4 +1,4 @@
-import { NavItem } from "@/app/interfaces/nav-item";
+import { NavItem } from "@/interfaces/nav-item";
 
 export const navItems: NavItem[] = [
   { id: 'plans', label: 'Plans', icon: 'message-square' },
