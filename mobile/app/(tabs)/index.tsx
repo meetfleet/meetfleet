@@ -83,6 +83,7 @@ const NavigationPage: React.FC = () => {
                 userEmoji={marker.userEmoji}
                 hasProgress={marker.hasProgress}
                 progressColor={marker.progressColor}
+                isMaxZoom={zoomLevel >= 20}
               />
             </Mapbox.MarkerView>
           ))}
@@ -94,7 +95,7 @@ const NavigationPage: React.FC = () => {
                 <TextInput
                   style={styles.searchInput}
                   placeholder="Search the vibe you like"
-                  placeholderTextColor="#b1b4b7"
+                  placeholderTextColor="rgba(0, 0, 0, 0.3)"
                   value={searchQuery}
                   onChangeText={setSearchQuery}
                   autoFocus

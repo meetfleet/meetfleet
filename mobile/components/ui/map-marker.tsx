@@ -18,6 +18,7 @@ interface MapMarkerProps {
   hasProgress?: boolean;
   progressColor?: string;
   onPress?: () => void;
+  isMaxZoom?: boolean;
 }
 
 const MapMarker: React.FC<MapMarkerProps> = ({
@@ -27,6 +28,7 @@ const MapMarker: React.FC<MapMarkerProps> = ({
   hasProgress = false,
   progressColor = Colors.light.success,
   onPress,
+  isMaxZoom = false,
 }) => {
   const progress = useSharedValue(0);
   const radius = 22.5;
@@ -54,7 +56,11 @@ const MapMarker: React.FC<MapMarkerProps> = ({
       activeOpacity={0.8}
       style={styles.container}
     >
-      <View style={[styles.marker, isActive && styles.activeMarker]}>
+      <View style={[
+        styles.marker, 
+        isActive && styles.activeMarker,
+        isMaxZoom && styles.maxZoomMarker
+      ]}>
         <View style={styles.mainEmojiWrapper}>
           {hasProgress && (
             <View style={styles.progressRingContainer}>
@@ -116,6 +122,9 @@ const styles = StyleSheet.create({
   },
   activeMarker: {
     transform: [{ scale: 1.1 }],
+  },
+  maxZoomMarker: {
+    transform: [{ scale: 1.15 }],
   },
   mainEmojiWrapper: {
     position: 'relative',
