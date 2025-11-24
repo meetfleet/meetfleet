@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar } from 'react-native';
 
-const backArrowIcon = require('@/assets/back_arrow.png'); 
+const backArrowIcon = require('@/assets/back_arrow.png');
 const fingersCrossedImage = require('@/assets/fingers_crossed.png');
 const avatarImage = require('@/assets/avatar.png');
 
@@ -12,9 +12,11 @@ const RequestScreen = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton}>
-            <Text style={styles.backButtonText}>{'< Back'}</Text>
+            <Image source={backArrowIcon} style={styles.backIcon} />
+            <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
         </View>
+
 
         <View style={styles.content}>
           <Image
@@ -28,7 +30,7 @@ const RequestScreen = () => {
 
           <View style={styles.replyTimeContainer}>
             <Image
-              source={avatarImage} 
+              source={avatarImage}
             />
             <Text style={styles.replyTimeText}>
               Imad's Usual reply time: 13 mins
@@ -66,16 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  backButton: {
-    backgroundColor: '#F0F0F0',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: '#000',
-  },
   content: {
     flex: 1,
     alignItems: 'center',
@@ -105,10 +97,12 @@ const styles = StyleSheet.create({
   replyTimeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: 'white',
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 10,
+    borderColor: '#E5E5E5',
+    borderWidth: 0.7,
   },
   avatar: {
     width: 30,
@@ -146,6 +140,26 @@ const styles = StyleSheet.create({
   },
   activityButtonText: {
     color: '#FFFFFF',
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 0.7,
+    borderColor: '#E5E5E5',
+  },
+  backIcon: {
+    width: 9,
+    height: 9,
+    resizeMode: 'contain',
+    marginRight: 6,
+  },
+  backButtonText: {
+    fontSize: 15,
+    color: '#000',
   },
 });
 
