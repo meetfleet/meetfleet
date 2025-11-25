@@ -29,6 +29,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onTabChange }) =
                 : require('../../assets/images/logo.svg')
             }
             style={{ width: 24, height: 24 }}
+            tintColor={isActive ? undefined : iconColor}
             contentFit="contain"
           />
         );
