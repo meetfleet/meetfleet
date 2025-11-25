@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../components/BackButton';
 
-const backArrowIcon = require('@/assets/back_arrow.png');
 const fingersCrossedImage = require('@/assets/fingers_crossed.png');
 const avatarImage = require('@/assets/avatar.png');
 
@@ -21,7 +21,7 @@ const RequestScreen = () => {
           />
           <Text style={styles.title}>Request Sent To Imad</Text>
           <Text style={styles.subtitle}>
-            If your requested got accepted, you'll be notified immediately
+            If your request got accepted, you'll be notified immediately
           </Text>
 
           <View style={styles.replyTimeContainer}>
@@ -59,11 +59,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: '#FFFFFF',
   },
-  header: {
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
   content: {
     flex: 1,
     alignItems: 'center',
@@ -100,12 +95,6 @@ const styles = StyleSheet.create({
     borderColor: '#E5E5E5',
     borderWidth: 0.9,
   },
-  avatar: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    marginRight: 10,
-  },
   replyTimeText: {
     fontSize: 14,
     color: '#333333',
@@ -136,26 +125,6 @@ const styles = StyleSheet.create({
   },
   activityButtonText: {
     color: '#FFFFFF',
-  },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 0.7,
-    borderColor: '#E5E5E5',
-  },
-  backIcon: {
-    width: 9,
-    height: 9,
-    resizeMode: 'contain',
-    marginRight: 6,
-  },
-  backButtonText: {
-    fontSize: 15,
-    color: '#000',
   },
 });
 
