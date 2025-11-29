@@ -25,6 +25,8 @@ export const Colors = {
     shadow: 'rgba(0, 0, 0, 0.1)',
     navbarBackground: '#F4F7FB',
     navbarInactive: 'rgba(0, 0, 0, 0.3)',
+    gold: '#C5A059',
+    lightGray: '#F8F9FA',
   },
   dark: {
     text: '#ECEDEE',
@@ -43,6 +45,8 @@ export const Colors = {
     shadow: 'rgba(0, 0, 0, 0.3)',
     navbarBackground: '#1C1C1E',
     navbarInactive: '#9BA1A6',
+    gold: '#C5A059',
+    lightGray: '#2C2C2E',
   },
 };
 

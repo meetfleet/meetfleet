@@ -5,20 +5,22 @@ import { MAPBOX_ACCESS_TOKEN } from '@/constants/mapbox-config';
 import { markers } from '@/constants/markers-data';
 import { Colors } from '@/constants/theme';
 import Mapbox from '@rnmapbox/maps';
+import { useRouter } from 'expo-router';
 import { Map, Minus, Plus, Search, Settings2, X } from 'lucide-react-native';
 import React, { useRef, useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 const NavigationPage: React.FC = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('navigation');
   const [zoomLevel, setZoomLevel] = useState(13);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -112,7 +114,10 @@ const NavigationPage: React.FC = () => {
                 </TouchableOpacity>
               </View>
               
-              <TouchableOpacity style={styles.profileButton}>
+              <TouchableOpacity 
+                style={styles.profileButton}
+                onPress={() => router.push('/profile')}
+              >
                 <View style={styles.profileCircle}>
                   <Text style={styles.profileEmoji}>👤</Text>
                 </View>
@@ -152,7 +157,10 @@ const NavigationPage: React.FC = () => {
                 </TouchableOpacity>
               </View>
               
-              <TouchableOpacity style={styles.profileButton}>
+              <TouchableOpacity 
+                style={styles.profileButton}
+                onPress={() => router.push('/profile')}
+              >
                 <View style={styles.profileCircle}>
                   <Text style={styles.profileEmoji}>👤</Text>
                 </View>
