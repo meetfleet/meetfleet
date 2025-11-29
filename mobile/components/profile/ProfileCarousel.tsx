@@ -50,7 +50,6 @@ export function ProfileCarousel() {
               source={require('@/assets/images/img.png')} 
               style={styles.profileImage} 
             />
-            {/* Gem Image - Absolute positioned */}
             <View style={styles.gemContainer}>
                <Image 
                 source={require('@/assets/premium/premium.png')} 
@@ -66,7 +65,7 @@ export function ProfileCarousel() {
               <ThemedText style={styles.beerIcon}>🍺</ThemedText>
             </View>
             <ThemedText style={[styles.bio, { color: colors.icon }]}>
-              Just hanging out in Rabat. Looking for coffe or tech meetups.
+              Just hanging out in Rabat. Looking for coffee or tech meetups.
             </ThemedText>
           </View>
 
@@ -78,7 +77,9 @@ export function ProfileCarousel() {
               <ThemedText style={[styles.activePlansText, { color: colors.text }]}>2 active plans</ThemedText>
             </View>
             
-            <TouchableOpacity>
+            <TouchableOpacity
+              accessibilityLabel="Upgrade to Premium"
+              accessibilityRole="button">
               <PrimeButtonSvg />
             </TouchableOpacity>
           </View>
@@ -125,12 +126,12 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 120,
     height: 120,
-    borderRadius: 30, // Squircle-ish
+    borderRadius: 30,
   },
   gemContainer: {
     position: 'absolute',
     top: -30,
-    right: -60, // Push it off screen to show half
+    right: -60,
     width: 150,
     height: 150,
     zIndex: 1,

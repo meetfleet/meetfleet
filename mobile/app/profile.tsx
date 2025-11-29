@@ -1,18 +1,15 @@
+import { BadgesSection } from '@/components/profile/BadgesSection';
+import { InterestsSection } from '@/components/profile/InterestsSection';
+import { ProfileCarousel } from '@/components/profile/ProfileCarousel';
+import { ProfileOptionsModal } from '@/components/profile/ProfileOptionsModal';
+import { StatsCarousel } from '@/components/profile/StatsCarousel';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-
-import { BadgesSection } from '@/components/profile/BadgesSection';
-import { InterestsSection } from '@/components/profile/InterestsSection';
-import { ProfileCarousel } from '@/components/profile/ProfileCarousel';
-import { StatsCarousel } from '@/components/profile/StatsCarousel';
-
-import { ProfileOptionsModal } from '@/components/profile/ProfileOptionsModal';
-import { useState } from 'react';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
@@ -27,12 +24,18 @@ export default function ProfileScreen() {
           headerShown: true,
           headerTitle: '',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+            <TouchableOpacity
+              accessibilityLabel="Go back"
+              accessibilityRole="button"
+              onPress={() => router.back()}
+              style={{ marginLeft: 10 }}>
                <Ionicons name="arrow-back" size={24} color={colors.text} />
             </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity 
+              accessibilityLabel="Open menu"
+              accessibilityRole="button"
               style={{ marginRight: 10 }}
               onPress={() => setMenuVisible(true)}
             >

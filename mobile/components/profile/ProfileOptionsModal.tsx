@@ -38,12 +38,10 @@ export function ProfileOptionsModal({ visible, onClose }: ProfileOptionsModalPro
                   key={index}
                   onPress={() => {
                     option.action();
-                    // Optional: Close menu after action
-                    // onClose(); 
                   }}
                   style={({ pressed }) => [
                     styles.optionItem,
-                    pressed && { backgroundColor: '#0033FF1A' }
+                    pressed && { backgroundColor: colors.text }
                   ]}
                 >
                   <option.icon size={20} color={colors.text} style={styles.icon} />

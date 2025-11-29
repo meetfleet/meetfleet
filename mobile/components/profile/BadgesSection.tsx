@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 3.84,
     elevation: 2,
-    marginBottom: 40, // Extra space at bottom
+    marginBottom: 40,
   },
   title: {
     marginBottom: 16,
