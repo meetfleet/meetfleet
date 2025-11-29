@@ -1,7 +1,7 @@
 import { navItems } from '@/constants/nav-items';
 import { Colors } from '@/constants/theme';
 import { Image } from 'expo-image';
-import { MessageCircle, MessageSquare } from 'lucide-react-native';
+import { Diamond, MessageCircle } from 'lucide-react-native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -18,8 +18,8 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onTabChange }) =
     switch (iconName) {
       case 'message-circle':
         return <MessageCircle size={iconSize} color={iconColor} />;
-      case 'message-square':
-        return <MessageSquare size={iconSize} color={iconColor} />;
+      case 'diamond':
+        return <Diamond size={iconSize} color={iconColor} />;
       case 'navigation':
         return (
           <Image
