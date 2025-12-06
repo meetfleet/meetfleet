@@ -1,3 +1,4 @@
+import EventBottomSheet from '@/components/EventBottomSheet';
 import BottomNavBar from '@/components/ui/bottom-navbar';
 import FiltersBackdrop from '@/components/ui/filters-backdrop';
 import MapMarker from '@/components/ui/map-marker';
@@ -9,12 +10,13 @@ import { useRouter } from 'expo-router';
 import { Map, Minus, Plus, Search, Settings2, X } from 'lucide-react-native';
 import React, { useRef, useState } from 'react';
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
@@ -26,8 +28,9 @@ const NavigationPage: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
   const cameraRef = useRef<Mapbox.Camera>(null);
-  
+
   const centerCoordinate = [-74.0060, 40.7128];
 
   const handleZoomIn = () => {
@@ -48,150 +51,174 @@ const NavigationPage: React.FC = () => {
     });
   };
 
+  const handleMarkerPress = (markerId: string, latitude: number, longitude: number) => {
+    setSelectedMarkerId(markerId);
+    cameraRef.current?.setCamera({
+      centerCoordinate: [longitude, latitude],
+      zoomLevel: 16,
+      padding: { paddingBottom: 500, paddingLeft: 0, paddingRight: 0, paddingTop: 0 }, // Adjust padding to center in top area
+      animationDuration: 600,
+    });
+  };
+
+  const handleMapPress = () => {
+    if (selectedMarkerId) {
+      setSelectedMarkerId(null);
+      // Optional: Reset camera padding or zoom out slightly
+      cameraRef.current?.setCamera({
+        padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+        animationDuration: 600,
+      });
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.mapContainer}>
-        <Mapbox.MapView
-          style={styles.map}
-          styleURL={Mapbox.StyleURL.Street}
-          zoomEnabled={true}
-          scrollEnabled={true}
-          pitchEnabled={false}
-          rotateEnabled={false}
-        >
-          <Mapbox.Camera
-            ref={cameraRef}
-            zoomLevel={zoomLevel}
-            centerCoordinate={centerCoordinate}
-            animationMode="flyTo"
-            animationDuration={1000}
-          />
-          <Mapbox.LocationPuck
-            visible={true}
-            pulsing={{
-              isEnabled: true,
-              color: Colors.light.primary,
-              radius: 50,
-            }}
-          />
-          {markers.map((marker) => (
-            <Mapbox.MarkerView
-              key={marker.id}
-              id={marker.id}
-              coordinate={[marker.longitude, marker.latitude]}
-            >
-              <MapMarker
-                emoji={marker.emoji}
-                userEmoji={marker.userEmoji}
-                hasProgress={marker.hasProgress}
-                progressColor={marker.progressColor}
-                isMaxZoom={zoomLevel >= 20}
-              />
-            </Mapbox.MarkerView>
-          ))}
-        </Mapbox.MapView>
-        <View style={styles.header}>
-          {isSearchOpen ? (
-            <>
-              <View style={styles.searchInputContainer}>
-                <TextInput
-                  style={styles.searchInput}
-                  placeholder="Search the vibe you like"
-                  placeholderTextColor="rgba(0, 0, 0, 0.3)"
-                  value={searchQuery}
-                  onChangeText={setSearchQuery}
-                  autoFocus
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container} edges={['top']}>
+        <View style={styles.mapContainer}>
+          <Mapbox.MapView
+            style={styles.map}
+            styleURL={Mapbox.StyleURL.Street}
+            zoomEnabled={true}
+            scrollEnabled={true}
+            pitchEnabled={false}
+            rotateEnabled={false}
+            onPress={handleMapPress}
+          >
+            <Mapbox.Camera
+              ref={cameraRef}
+              zoomLevel={zoomLevel}
+              centerCoordinate={centerCoordinate}
+              animationMode="flyTo"
+              animationDuration={1000}
+            />
+            <Mapbox.LocationPuck
+              visible={true}
+              pulsing={{
+                isEnabled: true,
+                color: Colors.light.primary,
+                radius: 50,
+              }}
+            />
+            {markers.map((marker) => (
+              <Mapbox.MarkerView
+                key={marker.id}
+                id={marker.id}
+                coordinate={[marker.longitude, marker.latitude]}
+              >
+                <MapMarker
+                  emoji={marker.emoji}
+                  userEmoji={marker.userEmoji}
+                  hasProgress={marker.hasProgress}
+                  progressColor={marker.progressColor}
+                  isMaxZoom={zoomLevel >= 20}
+                  isActive={selectedMarkerId === marker.id}
+                  onPress={() => handleMarkerPress(marker.id, marker.latitude, marker.longitude)}
                 />
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={() => {
-                    setIsSearchOpen(false);
-                    setSearchQuery('');
-                  }}
-                  activeOpacity={0.7}
-                >
-                  <X size={20} color={Colors.light.text} />
-                </TouchableOpacity>
-              </View>
-              
-              <TouchableOpacity 
-                style={styles.profileButton}
-                onPress={() => router.push('/profile')}
-              >
-                <View style={styles.profileCircle}>
-                  <Text style={styles.profileEmoji}>👤</Text>
+              </Mapbox.MarkerView>
+            ))}
+          </Mapbox.MapView>
+          <View style={styles.header}>
+            {isSearchOpen ? (
+              <>
+                <View style={styles.searchInputContainer}>
+                  <TextInput
+                    style={styles.searchInput}
+                    placeholder="Search the vibe you like"
+                    placeholderTextColor="rgba(0, 0, 0, 0.3)"
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    autoFocus
+                  />
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => {
+                      setIsSearchOpen(false);
+                      setSearchQuery('');
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    <X size={20} color={Colors.light.text} />
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              <View style={styles.headerLeft}>
-                <TouchableOpacity
-                  style={styles.iconButton}
-                  onPress={() => setIsSearchOpen(true)}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.iconCircle}>
-                    <Search size={20} color={Colors.light.text} />
+
+                <TouchableOpacity style={styles.profileButton}>
+                  <View style={styles.profileCircle}>
+                    <Text style={styles.profileEmoji}>👤</Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.iconButton}
-                  onPress={() => setIsFiltersOpen(true)}
-                  activeOpacity={0.7}
-                >
-                  <View style={[
-                    styles.iconCircle,
-                    isFiltersOpen && styles.iconCircleActive
-                  ]}>
-                    <Settings2 
-                      size={20} 
-                      color={isFiltersOpen ? Colors.light.primary : Colors.light.text} 
-                    />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton}>
-                  <View style={styles.iconCircle}>
-                    <Map size={20} color={Colors.light.text} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-              
-              <TouchableOpacity 
-                style={styles.profileButton}
-                onPress={() => router.push('/profile')}
-              >
-                <View style={styles.profileCircle}>
-                  <Text style={styles.profileEmoji}>👤</Text>
+              </>
+            ) : (
+              <>
+                <View style={styles.headerLeft}>
+                  <TouchableOpacity
+                    style={styles.iconButton}
+                    onPress={() => setIsSearchOpen(true)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.iconCircle}>
+                      <Search size={20} color={Colors.light.text} />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.iconButton}
+                    onPress={() => setIsFiltersOpen(true)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={[
+                      styles.iconCircle,
+                      isFiltersOpen && styles.iconCircleActive
+                    ]}>
+                      <Settings2
+                        size={20}
+                        color={isFiltersOpen ? Colors.light.primary : Colors.light.text}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.iconButton}>
+                    <View style={styles.iconCircle}>
+                      <Map size={20} color={Colors.light.text} />
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </>
-          )}
-        </View>
-        <View style={styles.rightActions}>
-          <TouchableOpacity style={styles.actionButton} onPress={handleZoomIn}>
-            <View style={styles.actionCircle}>
-              <Plus size={24} color={Colors.light.text} strokeWidth={2} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton} onPress={handleZoomOut}>
-            <View style={styles.actionCircle}>
-              <Minus size={24} color={Colors.light.text} strokeWidth={2} />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.floatingButton}>
-          <View style={styles.floatingButtonInner}>
-            <Text style={styles.floatingButtonText}>+</Text>
+
+                <TouchableOpacity style={styles.profileButton}>
+                  <View style={styles.profileCircle}>
+                    <Text style={styles.profileEmoji}>👤</Text>
+                  </View>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
-        </TouchableOpacity>
-      </View>
-      <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
-      <FiltersBackdrop
-        visible={isFiltersOpen}
-        onClose={() => setIsFiltersOpen(false)}
-      />
-    </SafeAreaView>
+          <View style={styles.rightActions}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleZoomIn}>
+              <View style={styles.actionCircle}>
+                <Plus size={24} color={Colors.light.text} strokeWidth={2} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={handleZoomOut}>
+              <View style={styles.actionCircle}>
+                <Minus size={24} color={Colors.light.text} strokeWidth={2} />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.floatingButton}>
+            <View style={styles.floatingButtonInner}>
+              <Text style={styles.floatingButtonText}>+</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
+        <FiltersBackdrop
+          visible={isFiltersOpen}
+          onClose={() => setIsFiltersOpen(false)}
+        />
+        <EventBottomSheet
+          isOpen={!!selectedMarkerId}
+          onClose={() => setSelectedMarkerId(null)}
+        />
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 };
 
