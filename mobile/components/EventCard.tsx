@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 const mapIcon = require('@/assets/map.png');
 const clockIcon = require('@/assets/clock.png');
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event }: { event: any }) => {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
