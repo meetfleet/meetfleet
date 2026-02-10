@@ -42,3 +42,11 @@ app-example
 /ios
 /android
 .env
+node_modules/
+.expo/
+android/app/build/
+android/.gradle/
+ios/build/
+ios/Pods/
+*.log
+.DS_Store
