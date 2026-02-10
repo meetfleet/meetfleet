@@ -94,29 +94,59 @@ export default function PlanTab() {
             </View>
 
             <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Plan's Details</Text>
-                {PLAN_DATA.details.map((detail, index) => (
-                    <View key={index} style={styles.detailRow}>
-                        <Text style={styles.detailLabel}>{detail.label}</Text>
-                        <Text style={styles.detailValue}>{detail.value}</Text>
+                <Text style={styles.sectionTitle}>Plan Details</Text>
+                <View style={styles.detailsGrid}>
+                    <View style={styles.detailItem}>
+                        <View style={styles.detailIconBox}>
+                            <Ionicons name="hourglass-outline" size={20} color="#4F46E5" />
+                        </View>
+                        <View>
+                            <Text style={styles.detailLabel}>Duration</Text>
+                            <Text style={styles.detailValue}>1-2 hours</Text>
+                        </View>
                     </View>
-                ))}
+                    <View style={styles.detailItem}>
+                        <View style={styles.detailIconBox}>
+                            <Ionicons name="wallet-outline" size={20} color="#10B981" />
+                        </View>
+                        <View>
+                            <Text style={styles.detailLabel}>Cost</Text>
+                            <Text style={styles.detailValue}>On Him</Text>
+                        </View>
+                    </View>
+                    <View style={styles.detailItem}>
+                        <View style={styles.detailIconBox}>
+                            <Ionicons name="briefcase-outline" size={20} color="#F59E0B" />
+                        </View>
+                        <View>
+                            <Text style={styles.detailLabel}>Occupation</Text>
+                            <Text style={styles.detailValue}>Sales Mgr</Text>
+                        </View>
+                    </View>
+                    <View style={styles.detailItem}>
+                        <View style={styles.detailIconBox}>
+                            <Ionicons name="ban-outline" size={20} color="#EF4444" />
+                        </View>
+                        <View>
+                            <Text style={styles.detailLabel}>Smoker</Text>
+                            <Text style={styles.detailValue}>No</Text>
+                        </View>
+                    </View>
+                </View>
             </View>
 
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Interests</Text>
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.interestsContainer}
-                >
+
+                <View style={styles.interestsContainer}>
+                    {/* Using View with flexWrap for better layout control */}
                     {PLAN_DATA.interests.map((interest, index) => (
                         <View key={index} style={styles.chip}>
-                            <Ionicons name={interest.icon} size={16} color="black" style={styles.chipIcon} />
+                            <Ionicons name={interest.icon} size={14} color="#334155" style={styles.chipIcon} />
                             <Text style={styles.chipText}>{interest.label}</Text>
                         </View>
                     ))}
-                </ScrollView>
+                </View>
             </View>
 
             <View style={styles.section}>
@@ -235,48 +265,72 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.bold,
         marginBottom: 12,
     },
-    detailRow: {
+    detailsGrid: {
         flexDirection: 'row',
-        gap: 10,
+        flexWrap: 'wrap',
+        gap: 12,
         marginBottom: 8,
     },
+    detailItem: {
+        width: '48%', // Approx 2 columns
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F8FAFC',
+        padding: 12,
+        borderRadius: 16,
+        gap: 12,
+    },
+    detailIconBox: {
+        width: 36,
+        height: 36,
+        borderRadius: 10,
+        backgroundColor: '#FFFFFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        elevation: 1,
+    },
     detailLabel: {
-        fontSize: 14,
-        color: '#666',
+        fontSize: 11,
+        color: '#64748B',
         fontFamily: Fonts.regular,
+        marginBottom: 2,
     },
     detailValue: {
-        fontSize: 14,
+        fontSize: 13,
         fontFamily: Fonts.bold,
-        color: '#000',
+        color: '#0F172A',
     },
     interestsContainer: {
         flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: 8,
-        paddingRight: 20,
     },
     chip: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'white',
-        borderWidth: 1,
-        borderColor: '#ddd',
+        backgroundColor: '#F3F4F6', // Light gray background like Profile
+        paddingVertical: 8,
+        paddingHorizontal: 12,
         borderRadius: 20,
-        paddingVertical: 15,
-        paddingHorizontal: 15,
+        borderWidth: 0, // Removed border
     },
     chipIcon: {
-        marginRight: 4,
+        marginRight: 6,
     },
     chipText: {
-        fontSize: 14,
+        fontSize: 13,
         fontFamily: Fonts.bold,
+        color: '#334155',
     },
     descriptionText: {
         fontSize: 14,
         fontWeight: 'normal',
-        color: '#333',
-        lineHeight: 20,
+        color: '#334155',
+        lineHeight: 22,
         marginBottom: 8,
         fontFamily: Fonts.regular,
     },

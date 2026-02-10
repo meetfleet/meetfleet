@@ -1,37 +1,40 @@
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { ThemedText } from '../themed-text';
-import { ThemedView } from '../themed-view';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-export function StatsCarousel() {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+export interface StatsCarouselProps {
+  plans?: number | null;
+  rating?: number | null;
+  trustScore?: number | null;
+}
+
+export function StatsCarousel({ plans, rating, trustScore }: StatsCarouselProps) {
+  const safePlans = plans ?? 0;
+  const safeRating = rating ?? 0;
+  const safeTrust = trustScore ?? 0;
 
   const stats = [
-    { label: 'Plans', value: '12', icon: 'happy', color: colors.gold },
-    { label: 'Rating', value: '4.9', icon: 'star', color: colors.gold },
-    { label: 'Trust', value: '98%', icon: 'shield-checkmark', color: colors.gold },
+    { label: 'Plans', value: String(safePlans), icon: 'happy-outline', color: '#9CA3AF' },
+    { label: 'Rating', value: safeRating.toFixed(1), icon: 'star-outline', color: '#9CA3AF' },
+    { label: 'Trust', value: `${safeTrust}%`, icon: 'shield-outline', color: '#9CA3AF' },
   ];
 
   return (
-    <ScrollView 
-      horizontal 
-      showsHorizontalScrollIndicator={false} 
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
       {stats.map((stat, index) => (
-        <ThemedView key={index} style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <View key={index} style={styles.card}>
           <View style={styles.header}>
-             <Ionicons name={stat.icon as any} size={24} color={stat.color} />
+            <Ionicons name={stat.icon as any} size={24} color={stat.color} />
           </View>
           <View style={styles.footer}>
-            <ThemedText type="subtitle" style={styles.value}>{stat.value}</ThemedText>
-            <ThemedText style={[styles.label, { color: colors.icon }]}>{stat.label}</ThemedText>
+            <Text style={styles.value}>{stat.value}</Text>
+            <Text style={styles.label}>{stat.label}</Text>
           </View>
-        </ThemedView>
+        </View>
       ))}
     </ScrollView>
   );
@@ -39,24 +42,24 @@ export function StatsCarousel() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     gap: 12,
   },
   card: {
-    width: 150,
-    height: 110,
+    width: 140,
+    height: 100,
     borderRadius: 16,
-    borderWidth: 1,
-    padding: 12,
+    padding: 16,
     justifyContent: 'space-between',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    backgroundColor: 'rgba(255, 255, 255, 0.05)', // Subtle background for depth
+    borderWidth: 1,
+    borderColor: 'rgba(15, 23, 42, 0.1)', // Low opacity outline
+    // Optional: Add a subtle shadow for better separation on light backgrounds
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
-    shadowRadius: 2,
+    shadowRadius: 4,
     elevation: 2,
   },
   header: {
@@ -65,14 +68,17 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'baseline', // Better alignment for text and value
   },
   value: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#0F172A',
   },
   label: {
-    fontSize: 12,
-    marginBottom: 2,
-  }
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#64748B',
+    marginLeft: 4,
+  },
 });

@@ -1,127 +1,203 @@
+import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { BackButton } from '../../components/BackButton';
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const fingersCrossedImage = require('@/assets/fingers_crossed.png');
 const avatarImage = require('@/assets/avatar.png');
 
 const RequestScreen = () => {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.container}>
-       <BackButton />
 
+      {/* Background Gradient or Color to match app */}
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: '#F8FAFC' }]} />
 
-        <View style={styles.content}>
-          <Image
-            source={fingersCrossedImage}
-            style={styles.mainImage}
-          />
-          <Text style={styles.title}>Request Sent To Imad</Text>
-          <Text style={styles.subtitle}>
-            If your request got accepted, you'll be notified immediately
-          </Text>
+      {/* Header Area */}
+      <View style={[styles.customHeaderContainer, { paddingTop: insets.top + 10 }]}>
+        <TouchableOpacity
+          style={styles.customBackButton}
+          onPress={() => router.back()}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <BlurView intensity={35} tint="light" style={styles.backButtonBlur}>
+            <Ionicons name="chevron-back" size={24} color="#0F172A" />
+          </BlurView>
+        </TouchableOpacity>
 
-          <View style={styles.replyTimeContainer}>
-            <Image
-              source={avatarImage}
-            />
-            <Text style={styles.replyTimeText}>
-              Imad's Usual reply time: 13 mins
-            </Text>
-          </View>
+        <View style={styles.headerTitleContainer}>
+          <Text style={styles.headerTitle}>Request Details</Text>
         </View>
 
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.navButton}>
-            <Text style={styles.navButtonText}>Navigation</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.navButton, styles.activityButton]}>
-            <Text style={[styles.navButtonText, styles.activityButtonText]}>
-              Your Activity
-            </Text>
-          </TouchableOpacity>
+        <View style={{ width: 44 }} />
+      </View>
+
+      <View style={styles.content}>
+        <Image
+          source={fingersCrossedImage}
+          style={styles.mainImage}
+        />
+        <Text style={styles.title}>Request Sent To Jamila</Text>
+        <Text style={styles.subtitle}>
+          If your request got accepted, you'll be notified immediately
+        </Text>
+
+        <View style={styles.replyTimeContainer}>
+          <Image
+            source={avatarImage}
+            style={styles.avatarImage}
+          />
+          <Text style={styles.replyTimeText}>
+            Jamila's Usual reply time: 13 mins
+          </Text>
         </View>
       </View>
-    </SafeAreaView>
+
+      <View style={[styles.footer, { paddingBottom: insets.bottom + 20 }]}>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={() => router.replace('/(tabs)')}
+        >
+          <Text style={styles.navButtonText}>Navigation</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.navButton, styles.activityButton]}
+          onPress={() => router.push('/plans/sent')}
+        >
+          <Text style={[styles.navButtonText, styles.activityButtonText]}>
+            Plan Status
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
   container: {
     flex: 1,
+    backgroundColor: '#F8FAFC',
+  },
+  // Header
+  customHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#FFFFFF',
+    paddingBottom: 16,
+    justifyContent: 'space-between',
+    zIndex: 100,
+  },
+  headerTitleContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#0F172A',
+  },
+  customBackButton: {},
+  backButtonBlur: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: 'rgba(0,0,0,0.08)',
+    overflow: 'hidden',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
   content: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 80,
+    paddingHorizontal: 20,
   },
   mainImage: {
-    width: 200,
-    height: 200,
+    width: 240,
+    height: 240,
     resizeMode: 'contain',
     marginBottom: 40,
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontWeight: '800',
+    color: '#0F172A',
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: 16,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
-    color: '#8A8A8E',
+    color: '#64748B',
     textAlign: 'center',
-    marginBottom: 30,
-    paddingHorizontal: 20,
+    marginBottom: 40,
+    paddingHorizontal: 30,
+    lineHeight: 24,
   },
   replyTimeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 30,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderColor: '#E5E5E5',
-    borderWidth: 0.9,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderColor: '#F1F5F9',
+    borderWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
+    gap: 12,
+  },
+  avatarImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#E2E8F0',
   },
   replyTimeText: {
     fontSize: 14,
-    color: '#333333',
+    fontWeight: '600',
+    color: '#334155',
   },
   footer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingBottom: 30,
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    gap: 12,
   },
   navButton: {
     flex: 1,
-    height: 50,
-    borderRadius: 12,
+    height: 56,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    marginHorizontal: 5,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderColor: '#F1F5F9',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    elevation: 2,
   },
   navButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#000000',
+    fontWeight: '700',
+    color: '#0F172A',
   },
   activityButton: {
-    backgroundColor: '#000000',
-    borderColor: '#000000',
+    backgroundColor: '#0F172A',
+    borderColor: '#0F172A',
   },
   activityButtonText: {
     color: '#FFFFFF',

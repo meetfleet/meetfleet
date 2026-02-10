@@ -306,8 +306,12 @@ const FiltersBackdrop: React.FC<FiltersBackdropProps> = ({ visible, onClose }) =
 };
 
 const styles = StyleSheet.create({
+
+
   container: {
     flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backdropFilter:'blur(10px)',
     position: 'relative',
   },
   backdrop: {
@@ -315,12 +319,12 @@ const styles = StyleSheet.create({
   },
   filtersCard: {
     position: 'absolute',
-    top: 150,
-    left: 24,
-    right: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.98)',
+    top: 70,
+    left: 16,
+    right: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 24,
-    padding: 20,
+    padding: 24,
     maxHeight: '60%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
@@ -335,7 +339,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '600',
     color: '#000000',
   },
@@ -354,13 +358,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sliderWrapper: {
-    height: 60,
+    height: 20,
     justifyContent: 'center',
-    paddingTop: 10,
-    paddingHorizontal: 20,
+    paddingTop: 0,
+    paddingHorizontal: 16,
   },
   sliderContainer: {
-    height: 40,
+    height: 20,
     justifyContent: 'center',
   },
   sliderTrackBackground: {

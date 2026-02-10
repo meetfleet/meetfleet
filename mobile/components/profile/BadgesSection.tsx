@@ -1,86 +1,79 @@
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { BADGES, BADGE_ASSETS } from '@/constants/badges';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { ThemedText } from '../themed-text';
-import { ThemedView } from '../themed-view';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BadgeItem } from './BadgeItem';
 
 export function BadgesSection() {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  // Always assign "The Genesis" to new users (simulated by finding it in our constant)
+  const genesisBadge = BADGES.find(b => b.name === 'The Genesis');
 
-  const badges = [
-    { name: 'Premium\nNearker', date: '15 Jan 2026', image: require('@/assets/badges/badge-1.png') },
-    { name: 'Creative\nPlanner', date: '23 Feb 2026', image: require('@/assets/badges/badge-2.png') },
-  ];
+  // Teaser badge using the teaser.png asset
+  const teaserBadge = {
+    id: 'teaser',
+    name: 'More Badges',
+    description: 'To come',
+    image: BADGE_ASSETS['Teaser'],
+    requirements: 'To come'
+  };
+
+  // If for some reason Genesis is missing, fallback or handle gracefully
+  if (!genesisBadge) return null;
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      <ThemedText type="subtitle" style={styles.title}>Badges</ThemedText>
-      <View style={styles.badgesRow}>
-        {badges.map((badge, index) => (
-          <View key={index} style={styles.badgeItem}>
-            <View style={[styles.imageContainer, { backgroundColor: colors.lightGray }]}>
-               <Image source={badge.image} style={styles.badgeImage} resizeMode="contain" />
-            </View>
-            <ThemedText style={styles.badgeName} numberOfLines={2}>{badge.name}</ThemedText>
-            <ThemedText style={[styles.badgeDate, { color: colors.icon }]}>{badge.date}</ThemedText>
-          </View>
-        ))}
-      </View>
-    </ThemedView>
+    <View style={styles.container}>
+      <Text style={styles.title}>Badges</Text>
+
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {/* Primary Static Badge: The Genesis */}
+        <View style={styles.primaryBadgeContainer}>
+          <BadgeItem
+            badge={genesisBadge}
+            size={80}
+            isUnlocked={true}
+            showDetails={true}
+          />
+        </View>
+
+        {/* Teaser Card - Identical in style to primary badge */}
+        <View style={styles.primaryBadgeContainer}>
+          <BadgeItem
+            badge={teaserBadge}
+            size={80}
+            isUnlocked={false}
+            showDetails={true}
+            customDate="To come"
+          />
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
-    marginVertical: 10,
-    padding: 20,
-    borderRadius: 24,
-    borderWidth: 1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 3.84,
-    elevation: 2,
-    marginBottom: 40,
+    paddingVertical: 24,
+    paddingHorizontal: 0,
+    paddingBottom: 30,
   },
   title: {
-    marginBottom: 16,
-    fontSize: 18,
-    fontWeight: '600',
+    paddingHorizontal: 24,
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#0F172A',
+    marginBottom: 24,
+    letterSpacing: -0.5,
   },
-  badgesRow: {
+  scrollContent: {
+    paddingHorizontal: 20,
     flexDirection: 'row',
-    gap: 20,
+    alignItems: 'stretch', // Ensure equal height
+    gap: 12,
   },
-  badgeItem: {
-    alignItems: 'center',
-    width: 100,
-  },
-  imageContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  badgeImage: {
-    width: 60,
-    height: 60,
-  },
-  badgeName: {
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  badgeDate: {
-    fontSize: 12,
+  primaryBadgeContainer: {
+    // BadgeItem handles its own size
   },
 });
